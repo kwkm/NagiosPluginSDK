@@ -1,0 +1,22 @@
+{
+    "name": "kwkm/NagiosPluginSDK",
+    "description": "Nagios Plugin SDK",
+    "keywords": ["nagios"],
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/kwkm/NagiosPluginSDK",
+    "authors": [
+        {
+            "name": "kwkm",
+            "email": "take@kwkm.org"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "4.5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Kwkm\\NagiosPluginSDK": "src/"
+        }
+    }
+}
