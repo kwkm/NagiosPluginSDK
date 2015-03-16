@@ -24,14 +24,52 @@ class NagiosThresholdPair
      *
      * @var boolean
      */
-    private $abnormalOutsideLimitRange;
+    private $outsideRange;
+
+    public function check($value)
+    {
+        if ($this->outsideRange) {
+            return $this->checkRangeInside($value);
+        } else {
+            return $this->checkRangeOutside($value);
+        }
+    }
+
+    private function checkRange($value)
+    {
+        if ((!is_null($this->lowerLimit)) and (!is_null($this->upperLimit))) {
+            if (($this->lowerLimit < $value) and ($this->upperLimit > $value)) {
+                return true;
+            }
+        } elseif (!is_null($this->lowerLimit)) {
+            if ($this->lowerLimit < $value) {
+                return true;
+            }
+        } elseif (!is_null($this->upperLimit)) {
+            if ($this->upperLimit > $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function checkRangeInside($value)
+    {
+        return $this->checkRange($value);
+    }
+
+    private function checkRangeOutside($value)
+    {
+        return !$this->checkRange($value);
+    }
 
     private function setRangeType($thresholdValue)
     {
         if (substr($thresholdValue, 0, 1) === '@') {
-            $this->abnormalOutsideLimitRange = false;
+            $this->outsideRange = false;
         } else {
-            $this->abnormalOutsideLimitRange = true;
+            $this->outsideRange = true;
         }
     }
 
@@ -87,7 +125,7 @@ class NagiosThresholdPair
         } else {
             $this->lowerLimit = null;
             $this->upperLimit = null;
-            $this->abnormalOutsideLimitRange = true;
+            $this->outsideRange = true;
         }
     }
 }
