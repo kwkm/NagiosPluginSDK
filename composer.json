@@ -1,5 +1,5 @@
 {
-    "name": "kwkm/NagiosPluginSDK",
+    "name": "kwkm/nagios-plugin-sdk",
     "description": "Nagios Plugin SDK",
     "keywords": ["nagios"],
     "type": "library",
