@@ -12,8 +12,16 @@ use Kwkm\NagiosPluginSDK\Exceptions\InvalidArgumentException;
 
 class NagiosThresholdPair
 {
-
+    /**
+     * Threshold upper limit
+     * @var float|integer
+     */
     private $upperLimit;
+
+    /**
+     * Threshold lower limit
+     * @var float|integer
+     */
     private $lowerLimit;
 
     /**
@@ -26,6 +34,12 @@ class NagiosThresholdPair
      */
     private $outsideRange;
 
+    /**
+     * Check the value
+     *
+     * @param $value float|integer
+     * @return boolean
+     */
     public function check($value)
     {
         if ($this->outsideRange) {
@@ -35,6 +49,12 @@ class NagiosThresholdPair
         }
     }
 
+    /**
+     * Check the value. within the range.
+     *
+     * @param $value
+     * @return bool
+     */
     private function checkRange($value)
     {
         if ((!is_null($this->lowerLimit)) and (!is_null($this->upperLimit))) {
@@ -54,16 +74,29 @@ class NagiosThresholdPair
         return false;
     }
 
+    /**
+     * Check the value. within the range.
+     * @param $value
+     * @return bool
+     */
     private function checkRangeInside($value)
     {
         return $this->checkRange($value);
     }
 
+    /**
+     * Check the value. without the range.
+     * @param $value
+     * @return bool
+     */
     private function checkRangeOutside($value)
     {
         return !$this->checkRange($value);
     }
 
+    /**
+     * @param $thresholdValue   string
+     */
     private function setRangeType($thresholdValue)
     {
         if (substr($thresholdValue, 0, 1) === '@') {
@@ -73,6 +106,9 @@ class NagiosThresholdPair
         }
     }
 
+    /**
+     * @param $thresholdValue
+     */
     private function setSingleLimit($thresholdValue)
     {
         if (is_numeric($thresholdValue) === false) {
@@ -83,6 +119,9 @@ class NagiosThresholdPair
         $this->lowerLimit = 0;
     }
 
+    /**
+     * @param $thresholdValue
+     */
     private function setPairLimit($thresholdValue)
     {
         list($lower, $upper) = explode(':', trim($thresholdValue, '@'), 2);
@@ -91,6 +130,10 @@ class NagiosThresholdPair
         $this->lowerLimit = $this->parseLimitValue($lower);
     }
 
+    /**
+     * @param $value
+     * @return null|integer|float
+     */
     private function parseLimitValue($value)
     {
         switch ($value) {
@@ -107,6 +150,9 @@ class NagiosThresholdPair
         }
     }
 
+    /**
+     * @param $thresholdValue
+     */
     private function parseThreshold($thresholdValue)
     {
         $this->setRangeType($thresholdValue);
