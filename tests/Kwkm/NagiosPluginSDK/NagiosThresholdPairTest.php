@@ -3,6 +3,8 @@
 namespace Kwkm\NagiosPluginSDK\Tests;
 
 use Kwkm\NagiosPluginSDK;
+use Kwkm\NagiosPluginSDK\Exceptions\InvalidArgumentException;
+
 
 require_once __DIR__ . '/../../bootstrap.php';
 
@@ -92,6 +94,32 @@ class NagiosThresholdPairTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($mock->check(11));
         $this->assertTrue($mock->check(10));
         $this->assertTrue($mock->check(9));
+    }
+
+    public function testExceptionSingleThresholdString()
+    {
+        try {
+            $mock = \TestMock::on(
+                new \Kwkm\NagiosPluginSDK\NagiosThresholdPair('foo')
+            );
+        } catch (InvalidArgumentException $ex) {
+            return;
+        }
+
+        $this->fail('An expected exception has not been raised.');
+    }
+
+    public function testExceptionMultiThresholdString()
+    {
+        try {
+            $mock = \TestMock::on(
+                new \Kwkm\NagiosPluginSDK\NagiosThresholdPair('foo:bar')
+            );
+        } catch (InvalidArgumentException $ex) {
+            return;
+        }
+
+        $this->fail('An expected exception has not been raised.');
     }
 }
 
