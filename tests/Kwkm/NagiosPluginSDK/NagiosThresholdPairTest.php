@@ -10,6 +10,20 @@ require_once __DIR__ . '/../../bootstrap.php';
 
 class NagiosThresholdPairTest extends \PHPUnit_Framework_TestCase
 {
+    public function testNoThreshold()
+    {
+        $mock = \TestMock::on(
+            new \Kwkm\NagiosPluginSDK\NagiosThresholdPair('')
+        );
+
+        $this->assertNull($mock->upperLimit);
+        $this->assertNull($mock->lowerLimit);
+
+        $this->assertTrue($mock->check(1));
+        $this->assertTrue($mock->check(0));
+        $this->assertTrue($mock->check(-1));
+    }
+
     public function testSingleThreshold()
     {
         $mock = \TestMock::on(
