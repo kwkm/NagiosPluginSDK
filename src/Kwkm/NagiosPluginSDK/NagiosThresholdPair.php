@@ -69,6 +69,9 @@ class NagiosThresholdPair
             if ($this->upperLimit > $value) {
                 return true;
             }
+        } else {
+            // upper/lower is null. No check.
+            return true;
         }
 
         return false;
